@@ -1,6 +1,7 @@
 package main
 
-// TODO add code or remove this file
+import "github.com/DaanV2/projects-tool/cmd"
 
 func main() {
+	cmd.Execute()
 }
