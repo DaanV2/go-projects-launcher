@@ -1,5 +1,10 @@
 package ide
 
+const (
+	VSCODE     IDE_ID = "vscode"
+	VSCODE_WLS IDE_ID = "wsl-vscode"
+)
+
 func init() {
 	registerIDE(
 		ideConfig{

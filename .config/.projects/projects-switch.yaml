@@ -1,0 +1,8 @@
+default_ide: vscode
+project_folders:
+    - folder: .home/repos
+      includes: []
+      excludes: []
+ide_config: 
+  - ide: vscode-wsl
+    path_filter: wsl.localhost

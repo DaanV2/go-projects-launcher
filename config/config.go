@@ -3,46 +3,78 @@ package config
 import (
 	"os"
 	"path"
-	"path/filepath"
 
+	"github.com/DaanV2/projects-tool/ide"
+	"github.com/DaanV2/projects-tool/users"
 	"github.com/charmbracelet/log"
 	"gopkg.in/yaml.v3"
 )
 
-type Config struct {
-	ProjectFolders []string `yaml:"project_folders"`
-	IDE []IDEConfig `yaml:"ide_config"`
-}
+type (
+	Config struct {
+		DefaultIDE     ide.IDE_ID       `yaml:"default_ide"`
+		ProjectFolders []*ProjectFolder `yaml:"project_folders"`
+		IDE            []*IDEConfig     `yaml:"ide_config"`
+	}
 
-type IDEConfig struct {
-	Command    string `yaml:"path_filter"`
-	PathFilter string `yaml:"path_filter"` // The regex filter to apply, if blank then always true
-}
+	IDEConfig struct {
+		IDE        ide.IDE_ID `yaml:"ide"`
+		PathFilter string     `yaml:"path_filter"` // The regex filter to apply, if blank then always true
+	}
 
-var config_filepath = path.Join("~", ".projects", "projects-switch.yaml")
+	ProjectFolder struct {
+		Folder   string   `yaml:"folder"`   // The folder to look through
+		Includes []string `yaml:"includes"` // The regex pattern that must match an item
+		Excludes []string `yaml:"excludes"` // The regex pattern that when match will excluded that item
+	}
+)
+
+func ConfigFilepath() string {
+	c := users.ConfigDirectory()
+
+	toolFolder := path.Join(c, ".projects")
+	if _, err := os.Stat(toolFolder); err != nil {
+		log.Debug("creating tool folder", "folder", toolFolder)
+
+		if err := os.MkdirAll(toolFolder, os.ModePerm); err != nil {
+			log.Fatal("could not create folder for tool", "error", err, "folder", toolFolder)
+		}
+	}
+
+	return path.Join(toolFolder, "projects-switch.yaml")
+}
 
 func GetConfig() *Config {
-	c, err := load(config_filepath)
-	if err != nil {
-		log.Errorf("error loading config file: %v", err)
+	filepath := ConfigFilepath()
+
+	c, err := load(filepath)
+	if os.IsNotExist(err) {
+		log.Infof("No config file found, make sure to go through the --config or --setup steps, or edit the manual file: %s", filepath)
 		SaveConfig(c)
+	} else if err != nil {
+		log.Errorf("error loading config file: %v", err)
 	}
 
 	return c
 }
 
 func SaveConfig(c *Config) {
-	if err := save(config_filepath, c); err != nil {
+	if err := save(ConfigFilepath(), c); err != nil {
 		log.Errorf("error saving config file: %v", err)
 	}
 }
 
 func DefaultConfig() *Config {
 	return &Config{
-		ProjectFolders: []string{
-			path.Join("~", "repos"),
+		ProjectFolders: []*ProjectFolder{
+			{
+				Folder:   path.Join(users.HomeDirectory(), "repos"),
+				Includes: []string{},
+				Excludes: []string{},
+			},
 		},
-		IDE: []IDEConfig{},
+		IDE:        []*IDEConfig{},
+		DefaultIDE: ide.VSCODE,
 	}
 }
 
@@ -61,14 +93,6 @@ func load(filepath string) (*Config, error) {
 
 func save(file string, c *Config) error {
 	log.Debugf("saving config file: %s", file)
-
-	directory := filepath.Dir(file)
-	if _, err := os.Stat(directory); os.IsNotExist(err) {
-		if err := os.Mkdir(directory, os.ModePerm); err != nil {
-			log.Errorf("could not create folder: %v", err)
-			return err
-		}
-	}
 
 	data, err := yaml.Marshal(c)
 	if err != nil {

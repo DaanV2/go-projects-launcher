@@ -1,7 +1,7 @@
 package ide
 
 import (
-	"fmt"
+	"log"
 	"maps"
 )
 
@@ -27,17 +27,23 @@ type (
 	}
 )
 
-func (i ideConfig) OpenCommand() string { return i._OpenCommand }
-func (i ideConfig) Name() string        { return i._Name }
-func (i ideConfig) ID() IDE_ID          { return i._ID }
+func (i IDE_ID) String() string                 { return string(i) }
+func (i IDE_ID) Get() IDE                       { return GetIDE(i.String()) }
+func (i ideConfig) OpenCommand() string         { return i._OpenCommand }
+func (i ideConfig) Name() string                { return i._Name }
+func (i ideConfig) ID() IDE_ID                  { return i._ID }
 func (i ideConfig) RecommendPatterns() []string { return i._Recommend }
 
 var ides = map[IDE_ID]IDE{}
 
 func registerIDE(ide ...IDE) {
 	for _, i := range ide {
+		if ide == nil {
+			log.Fatal("ide specification is nil")
+		}
+
 		if _, ok := ides[i.ID()]; ok {
-			panic(fmt.Errorf("IDE %s already registered", i.Name()))
+			log.Fatalf("IDE %s already registered", i.Name())
 		} else {
 			ides[i.ID()] = i
 		}
@@ -45,17 +51,15 @@ func registerIDE(ide ...IDE) {
 }
 
 // GetIDE returns the IDE with the given ID, or false if it does not exist
-func GetIDE(id IDE_ID) (IDE, bool) {
-	i, ok := ides[id]
-	return i, ok
+func GetIDE(id string) IDE {
+	idx := IDE_ID(id)
+	if i, ok := ides[idx]; ok {
+		return i
+	}
+	return nil
 }
 
 // GetIDEs returns a copy of the map of IDEs
 func GetIDEs() map[IDE_ID]IDE {
 	return maps.Clone(ides)
 }
-
-const (
-	VSCODE     IDE_ID = "vscode"
-	VSCODE_WLS IDE_ID = "wsl-vscode"
-)
