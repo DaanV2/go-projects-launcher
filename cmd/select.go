@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"errors"
-	"os/exec"
 
 	"github.com/DaanV2/projects-tool/config"
 	"github.com/DaanV2/projects-tool/ide"
@@ -71,16 +70,15 @@ func invokeIDE(ideC ide.IDE, project *projects.Project, config *config.Config) e
 		return errors.New("couldn't find a IDE to launch this project for")
 	}
 	ocom := ideC.OpenCommand(project.Folder)
+	ocom.Dir = project.Folder
 	log.Debug("Attempting...",
 		"command", ocom,
 		"project", project.Name,
 		"folder", project.Folder,
 	)
 
-	log.Info("Launching...", "command", ocom, "project", project.Name)
-	cmd := exec.Command(ocom)
-	cmd.Dir = project.Folder
-	if err := cmd.Start(); err != nil {
+	log.Info("Launching...", "project", project.Name, "command", ocom.String())
+	if err := ocom.Start(); err != nil {
 		return err
 	}
 

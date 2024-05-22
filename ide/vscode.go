@@ -1,6 +1,7 @@
 package ide
 
 import (
+	"os/exec"
 	"runtime"
 )
 
@@ -12,7 +13,9 @@ const (
 func init() {
 	registerIDE(
 		ideConfig{
-			"code .",
+			func(folder string) *exec.Cmd {
+				return exec.Command("code", ".")
+			},
 			"Visual Studio Code",
 			VSCODE,
 			[]string{},
@@ -22,7 +25,9 @@ func init() {
 	if runtime.GOOS == "windows" {
 		registerIDE(
 			ideConfig{
-				"wsl code .",
+				func(folder string) *exec.Cmd {
+					return exec.Command("wsl", "code", ".")
+				},
 				"Visual Studio Code (WSL)",
 				VSCODE_WLS,
 				[]string{"wsl.localhost"},

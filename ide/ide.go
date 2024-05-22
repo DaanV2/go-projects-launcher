@@ -2,6 +2,7 @@ package ide
 
 import (
 	"log"
+	"os/exec"
 )
 
 type (
@@ -9,7 +10,7 @@ type (
 
 	IDE interface {
 		// OpenCommand returns the command to open the IDE
-		OpenCommand(folder string) string
+		OpenCommand(folder string) *exec.Cmd
 		// Name returns the name of the IDE
 		Name() string
 		// ID returns the ID of the IDE
@@ -19,19 +20,19 @@ type (
 	}
 
 	ideConfig struct {
-		_OpenCommand string
+		_OpenCommand func(folder string) *exec.Cmd
 		_Name        string
 		_ID          IDE_ID
 		_Recommend   []string
 	}
 )
 
-func (i IDE_ID) String() string                      { return string(i) }
-func (i IDE_ID) Get() IDE                            { return GetIDE(i.String()) }
-func (i ideConfig) OpenCommand(folder string) string { return i._OpenCommand }
-func (i ideConfig) Name() string                     { return i._Name }
-func (i ideConfig) ID() IDE_ID                       { return i._ID }
-func (i ideConfig) RecommendPatterns() []string      { return i._Recommend }
+func (i IDE_ID) String() string                        { return string(i) }
+func (i IDE_ID) Get() IDE                              { return GetIDE(i.String()) }
+func (i ideConfig) OpenCommand(folder string) *exec.Cmd { return i._OpenCommand(folder) }
+func (i ideConfig) Name() string                       { return i._Name }
+func (i ideConfig) ID() IDE_ID                         { return i._ID }
+func (i ideConfig) RecommendPatterns() []string        { return i._Recommend }
 
 var ides = map[IDE_ID]IDE{}
 
