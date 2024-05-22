@@ -9,8 +9,8 @@ import (
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "projects-tool [pattern]",
-	Short: "TODO",
-	Long:  `TODO`,
+	Short: "A tool that allows for eaching switching of projects",
+	Long:  `Through the config file, the tool knows where to look for projects, apply any filters and determine possible IDE to launch the project for`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	Run:              MainWorkload,

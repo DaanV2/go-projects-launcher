@@ -7,6 +7,7 @@ import (
 	"github.com/charmbracelet/log"
 )
 
+// CacheDirectory returns the cache directory of the user
 func CacheDirectory() string {
 	c, err := os.UserCacheDir()
 	if err != nil {
@@ -17,6 +18,7 @@ func CacheDirectory() string {
 	return c
 }
 
+// HomeDirectory returns the user home directory
 func HomeDirectory() string {
 	c, err := os.UserHomeDir()
 	if err != nil {
@@ -27,6 +29,7 @@ func HomeDirectory() string {
 	return c
 }
 
+// ConfigDirectory returns the config directory of the user
 func ConfigDirectory() string {
 	c, err := os.UserConfigDir()
 	if err != nil {

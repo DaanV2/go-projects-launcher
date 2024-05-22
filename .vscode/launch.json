@@ -11,7 +11,9 @@
             "mode": "auto",
             "program": "${workspaceFolder}/main.go",
             "args": [
-                // "--setup"
+                // "--setup",
+                "examplA",
+                "--ide=wsl-vscode",
             ]
         }
     ]
