@@ -42,8 +42,9 @@ func SelectWorkload(cmd *cobra.Command, args []string) {
 			Options(projOptions...).
 			Value(selectProject)
 
-		FatalIfNotAbort(Display("", "", selectForm))
-		// Else if there is only 1 select that one
+		if FatalIfNotAbort(Display("Project launcher", "", selectForm)) {
+			return
+		}
 	} else if len(projs) == 1 {
 		selectProject = projs[0]
 	}
