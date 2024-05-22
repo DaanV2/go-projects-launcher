@@ -36,19 +36,13 @@ func SelectWorkload(cmd *cobra.Command, args []string) {
 	// If there are projects left to select, make a form
 	if len(projs) > 1 {
 		selectProject = projs[0]
-		form := huh.NewForm(
-			huh.NewGroup(
-				huh.NewSelect[projects.Project]().
-					Title("Select project").
-					Description("The project to open").
-					Options(projOptions...).
-					Value(selectProject),
-			),
-		)
+		selectForm := huh.NewSelect[projects.Project]().
+			Title("Select project").
+			Description("The project to open").
+			Options(projOptions...).
+			Value(selectProject)
 
-		if err := form.Run(); err != nil {
-			log.Fatal(err)
-		}
+		FatalIfNotAbort(Display("", "", selectForm))
 		// Else if there is only 1 select that one
 	} else if len(projs) == 1 {
 		selectProject = projs[0]
@@ -75,7 +69,7 @@ func invokeIDE(ideC ide.IDE, project *projects.Project, config *config.Config) e
 	if ideC == nil {
 		return errors.New("couldn't find a IDE to launch this project for")
 	}
-	ocom := ideC.OpenCommand()
+	ocom := ideC.OpenCommand(project.Folder)
 	log.Debug("Attempting...",
 		"command", ocom,
 		"project", project.Name,
