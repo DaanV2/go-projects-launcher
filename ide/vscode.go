@@ -12,7 +12,7 @@ const (
 func init() {
 	registerIDE(
 		ideConfig{
-			"code",
+			"code .",
 			"Visual Studio Code",
 			VSCODE,
 			[]string{},
