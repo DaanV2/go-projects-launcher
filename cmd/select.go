@@ -3,11 +3,11 @@ package cmd
 import (
 	"errors"
 
-	"github.com/DaanV2/projects-tool/config"
-	"github.com/DaanV2/projects-tool/ide"
-	"github.com/DaanV2/projects-tool/projects"
-	"github.com/DaanV2/projects-tool/regex"
-	"github.com/DaanV2/projects-tool/slicesx"
+	"github.com/DaanV2/go-projects-launcher/config"
+	"github.com/DaanV2/go-projects-launcher/ide"
+	"github.com/DaanV2/go-projects-launcher/projects"
+	"github.com/DaanV2/go-projects-launcher/regex"
+	"github.com/DaanV2/go-projects-launcher/slicesx"
 	"github.com/spf13/cobra"
 
 	"github.com/charmbracelet/huh"

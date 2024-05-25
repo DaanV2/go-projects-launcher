@@ -1,13 +1,13 @@
 # Projects tool
 
-A tool for launching projects, trying to make launching of your projects faster
+A tool for launching projects, allowing you to search all your different projects and launch them.
 
 ```bash
-go install github.com/DaanV2/projects-tool@v0.0.1
+go install github.com/DaanV2/go-projects-launcher@v1.0.0
 ```
 
 ## Examples
 
 ```
-projects-tool some-project-folder-pattern
+go-projects-launcher some-project-folder-pattern
 ```

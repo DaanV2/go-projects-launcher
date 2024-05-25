@@ -1,11 +1,9 @@
 package main
 
 import (
-	"github.com/DaanV2/projects-tool/cmd"
-	"github.com/spf13/viper"
+	"github.com/DaanV2/go-projects-launcher/cmd"
 )
 
 func main() {
-	viper.AutomaticEnv()
 	cmd.Execute()
 }

@@ -5,7 +5,7 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/DaanV2/projects-tool/slicesx"
+	"github.com/DaanV2/go-projects-launcher/slicesx"
 )
 
 // DetermineIDEFromSystem determines from the system what types of IDE are installed

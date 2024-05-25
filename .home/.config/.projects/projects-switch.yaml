@@ -1,6 +1,6 @@
 default_ide: vscode
 project_folders:
-  - folder: /workspaces/projects-tool/.home/repos
+  - folder: /workspaces/go-projects-launcher/.home/repos
     includes: []
     excludes: []
 ide_config:

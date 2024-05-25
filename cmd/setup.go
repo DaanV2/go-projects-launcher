@@ -1,9 +1,9 @@
 package cmd
 
 import (
-	"github.com/DaanV2/projects-tool/config"
-	"github.com/DaanV2/projects-tool/ide"
-	"github.com/DaanV2/projects-tool/slicesx"
+	"github.com/DaanV2/go-projects-launcher/config"
+	"github.com/DaanV2/go-projects-launcher/ide"
+	"github.com/DaanV2/go-projects-launcher/slicesx"
 	"github.com/charmbracelet/huh"
 	"github.com/charmbracelet/log"
 	"github.com/spf13/cobra"

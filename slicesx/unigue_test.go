@@ -3,7 +3,7 @@ package slicesx_test
 import (
 	"testing"
 
-	"github.com/DaanV2/projects-tool/slicesx"
+	"github.com/DaanV2/go-projects-launcher/slicesx"
 	"github.com/stretchr/testify/assert"
 )
 
