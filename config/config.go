@@ -11,18 +11,21 @@ import (
 )
 
 type (
+	// Config is the configuration for the projects switcher
 	Config struct {
-		DefaultIDE     ide.IDE_ID       `yaml:"default_ide"`
-		ProjectFolders []*ProjectFolder `yaml:"project_folders"`
-		IDE            []*IDEConfig     `yaml:"ide_config"`
+		DefaultIDE     ide.IDE_ID       `yaml:"default_ide"` // The default IDE to use
+		ProjectFolders []*ProjectFolder `yaml:"project_folders"` // The folders to look through
+		IDE            []*IDEConfig     `yaml:"ide_config"` // The IDE to configure
 	}
 
+	// IDEConfig is the configuration for an IDE
 	IDEConfig struct {
-		IDE        ide.IDE_ID `yaml:"ide"`
+		IDE        ide.IDE_ID `yaml:"ide"` // The IDE to configure
 		PathFilter string     `yaml:"path_filter"` // The regex filter to apply, if blank then always true
 		Custom     string     `yaml:"custom"`      // A custom command to run, if blank then use the default command
 	}
 
+	// ProjectFolder is the configuration for a folder to look through
 	ProjectFolder struct {
 		Folder   string   `yaml:"folder"`   // The folder to look through
 		Includes []string `yaml:"includes"` // The regex pattern that must match an item
@@ -30,6 +33,7 @@ type (
 	}
 )
 
+// ConfigFilepath returns the path to the config file
 func ConfigFilepath() string {
 	c := users.ConfigDirectory()
 
@@ -45,6 +49,7 @@ func ConfigFilepath() string {
 	return path.Join(toolFolder, "projects-switch.yaml")
 }
 
+// GetConfig returns the configuration for the projects switcher
 func GetConfig() *Config {
 	filepath := ConfigFilepath()
 
@@ -59,12 +64,14 @@ func GetConfig() *Config {
 	return c
 }
 
+// SaveConfig saves the configuration for the projects switcher
 func SaveConfig(c *Config) {
 	if err := save(ConfigFilepath(), c); err != nil {
 		log.Errorf("error saving config file: %v", err)
 	}
 }
 
+// DefaultConfig returns the default configuration for the projects switcher
 func DefaultConfig() *Config {
 	return &Config{
 		ProjectFolders: []*ProjectFolder{
@@ -79,6 +86,7 @@ func DefaultConfig() *Config {
 	}
 }
 
+// load the configuration from a file
 func load(filepath string) (*Config, error) {
 	log.Debugf("loading config file: %s", filepath)
 
@@ -92,6 +100,7 @@ func load(filepath string) (*Config, error) {
 	return c, err
 }
 
+// save the configuration to a file
 func save(file string, c *Config) error {
 	log.Debugf("saving config file: %s", file)
 
