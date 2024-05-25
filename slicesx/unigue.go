@@ -2,6 +2,7 @@ package slicesx
 
 import "slices"
 
+// Unique returns a new slice with only unique items
 func Unique[S ~[]E, E comparable](items S) S {
 	result := make(S, 0, len(items))
 

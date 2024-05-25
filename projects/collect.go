@@ -35,6 +35,7 @@ func GetProjects(folders []*config.ProjectFolder) []*Project {
 	return result
 }
 
+// discoverProjects finds all the projects in the given folder
 func discoverProjects(folder *config.ProjectFolder) ([]*Project, error) {
 	log.Debug("discovering project folder", "folder", folder.Folder)
 	result := make([]*Project, 0, 100)
