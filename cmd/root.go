@@ -14,7 +14,7 @@ var rootCmd = &cobra.Command{
 	Long:  `Through the config file, the tool knows where to look for projects, apply any filters and determine possible IDE to launch the project for`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
-	Run:              MainWorkload,
+	Run: MainWorkload,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		SetupLogger(cmd, args)
 		log.Info("==== project switcher ====")

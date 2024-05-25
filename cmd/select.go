@@ -62,7 +62,6 @@ func SelectWorkload(cmd *cobra.Command, args []string) {
 		log.Fatal("troubling launching the ide", "error", err)
 		return
 	}
-
 }
 
 func invokeIDE(ideC ide.IDE, project *projects.Project, userConfig *config.Config) error {

@@ -23,7 +23,7 @@ func GetProjects(folders []*config.ProjectFolder) []*Project {
 		if items, ok := cache[folder.Folder]; ok {
 			result = append(result, items...)
 			continue
-		} 
+		}
 		if items, err := discoverProjects(folder); err != nil {
 			delete(cache, folder.Folder)
 		} else {
@@ -54,11 +54,10 @@ func discoverProjects(folder *config.ProjectFolder) ([]*Project, error) {
 		if regex.Determine(fullpath, folder.Includes, folder.Excludes) {
 			result = append(result, &Project{
 				Folder: fullpath,
-				Name: item.Name(),
+				Name:   item.Name(),
 			})
 		}
 	}
 
 	return result, nil
 }
-
