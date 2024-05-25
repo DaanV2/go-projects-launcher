@@ -42,4 +42,7 @@ ide_config:
     path_filter: wsl.localhost # regex pattern that must match to use this ide
   - ide: vscode
     path_filter: ""
+  - ide: custom
+    path_filter: ""
+    command: notepad.exe
 ```

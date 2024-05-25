@@ -2,6 +2,8 @@ package cmd
 
 import (
 	"errors"
+	"os/exec"
+	"strings"
 
 	"github.com/DaanV2/go-projects-launcher/config"
 	"github.com/DaanV2/go-projects-launcher/ide"
@@ -14,6 +16,7 @@ import (
 	"github.com/charmbracelet/log"
 )
 
+// SelectWorkload opens a project in the selected IDE
 func SelectWorkload(cmd *cobra.Command, args []string) {
 	var selectProject *projects.Project
 	c := config.GetConfig()
@@ -62,21 +65,36 @@ func SelectWorkload(cmd *cobra.Command, args []string) {
 
 }
 
-func invokeIDE(ideC ide.IDE, project *projects.Project, config *config.Config) error {
+func invokeIDE(ideC ide.IDE, project *projects.Project, userConfig *config.Config) error {
+	var c *config.IDEConfig
 	if ideC == nil {
-		ideC = findIDE(project, config)
+		ideC, c = findIDE(project, userConfig)
 	}
 	if ideC == nil {
 		return errors.New("couldn't find a IDE to launch this project for")
 	}
+
 	ocom := ideC.OpenCommand(project.Folder)
-	ocom.Dir = project.Folder
+	if c != nil {
+		switch ideC.ID() {
+		case ide.CUSTOM:
+			cmd := strings.ReplaceAll(c.Custom, "{folder}", project.Folder)
+			ocom = exec.Command(cmd)
+		case ide.CUSTOM_WLS:
+			cmd := strings.ReplaceAll(c.Custom, "{folder}", project.Folder)
+			ocom = exec.Command("wsl", cmd)
+		}
+	}
 	log.Debug("Attempting...",
 		"command", ocom,
 		"project", project.Name,
 		"folder", project.Folder,
 	)
+	if ocom == nil {
+		return errors.New("couldn't find a command to launch this project for")
+	}
 
+	ocom.Dir = project.Folder
 	log.Info("Launching...", "project", project.Name, "command", ocom.String())
 	if err := ocom.Start(); err != nil {
 		return err
@@ -85,12 +103,12 @@ func invokeIDE(ideC ide.IDE, project *projects.Project, config *config.Config) e
 	return nil
 }
 
-func findIDE(project *projects.Project, config *config.Config) ide.IDE {
+func findIDE(project *projects.Project, config *config.Config) (ide.IDE, *config.IDEConfig) {
 	for _, i := range config.IDE {
 		if regex.IsMatch(project.Folder, i.PathFilter) {
-			return i.IDE.Get()
+			return i.IDE.Get(), i
 		}
 	}
 
-	return config.DefaultIDE.Get()
+	return config.DefaultIDE.Get(), nil
 }

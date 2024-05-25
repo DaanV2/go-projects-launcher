@@ -20,6 +20,7 @@ type (
 	IDEConfig struct {
 		IDE        ide.IDE_ID `yaml:"ide"`
 		PathFilter string     `yaml:"path_filter"` // The regex filter to apply, if blank then always true
+		Custom     string     `yaml:"custom"`      // A custom command to run, if blank then use the default command
 	}
 
 	ProjectFolder struct {
