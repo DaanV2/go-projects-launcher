@@ -36,13 +36,14 @@ type (
 // ConfigFilepath returns the path to the config file
 func ConfigFilepath() string {
 	c := users.ConfigDirectory()
-
 	toolFolder := path.Join(c, ".projects")
+	logger := log.WithPrefix("Config").With("folder", toolFolder)
+
 	if _, err := os.Stat(toolFolder); err != nil {
-		log.Debug("creating tool folder", "folder", toolFolder)
+		logger.Debug("creating tool folder", "folder", toolFolder)
 
 		if err := os.MkdirAll(toolFolder, os.ModePerm); err != nil {
-			log.Fatal("could not create folder for tool", "error", err, "folder", toolFolder)
+			logger.Fatal("could not create folder for tool", "error", err, "folder", toolFolder)
 		}
 	}
 
@@ -54,11 +55,13 @@ func GetConfig() *Config {
 	filepath := ConfigFilepath()
 
 	c, err := load(filepath)
+	logger := log.WithPrefix("Config").With("filepath", filepath)
+
 	if os.IsNotExist(err) {
-		log.Infof("No config file found, make sure to go through the --config or --setup steps, or edit the manual file: %s", filepath)
+		logger.Info("No config file found, make sure to go through the --config or --setup steps, or edit the manual file")
 		SaveConfig(c)
 	} else if err != nil {
-		log.Errorf("error loading config file: %v", err)
+		logger.Error("error loading config file", "error", err)
 	}
 
 	return c
@@ -67,7 +70,7 @@ func GetConfig() *Config {
 // SaveConfig saves the configuration for the projects switcher
 func SaveConfig(c *Config) {
 	if err := save(ConfigFilepath(), c); err != nil {
-		log.Errorf("error saving config file: %v", err)
+		log.WithPrefix("Config").Error("error while saving", "error", err)
 	}
 }
 
@@ -88,7 +91,7 @@ func DefaultConfig() *Config {
 
 // load the configuration from a file
 func load(filepath string) (*Config, error) {
-	log.Debugf("loading config file: %s", filepath)
+	log.WithPrefix("Config").Debug("loading...", "file", filepath)
 
 	c := DefaultConfig()
 	data, err := os.ReadFile(filepath)
@@ -101,13 +104,13 @@ func load(filepath string) (*Config, error) {
 }
 
 // save the configuration to a file
-func save(file string, c *Config) error {
-	log.Debugf("saving config file: %s", file)
+func save(filepath string, c *Config) error {
+	log.WithPrefix("Config").Debug("saving...", "file", filepath)
 
 	data, err := yaml.Marshal(c)
 	if err != nil {
 		return err
 	}
 
-	return os.WriteFile(file, data, 0644)
+	return os.WriteFile(filepath, data, 0644)
 }

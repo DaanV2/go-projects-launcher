@@ -4,6 +4,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/charmbracelet/lipgloss"
 	"github.com/charmbracelet/log"
 	"github.com/spf13/cobra"
 )
@@ -23,6 +24,7 @@ func SetupLogger(cmd *cobra.Command, args []string) {
 	logOptions := log.Options{
 		TimeFormat:   time.DateTime,
 		ReportCaller: cmd.Flag("log-report-caller").Value.String() == "true",
+		ReportTimestamp: false,
 	}
 
 	// log-level
@@ -44,5 +46,23 @@ func SetupLogger(cmd *cobra.Command, args []string) {
 
 	// Initialize the default logger.
 	logger := log.NewWithOptions(os.Stderr, logOptions)
+	logger.SetStyles(CreateStyle())
 	log.SetDefault(logger)
+}
+
+func CreateStyle() *log.Styles {
+	styles := log.DefaultStyles()
+
+	styles.Levels[log.DebugLevel] = styles.Levels[log.DebugLevel].SetString("🔎")
+	styles.Levels[log.InfoLevel] = styles.Levels[log.InfoLevel].SetString("🚀")
+	styles.Levels[log.WarnLevel] = styles.Levels[log.WarnLevel].SetString("⚠️")
+	styles.Levels[log.ErrorLevel] = styles.Levels[log.ErrorLevel].SetString("💥")
+	styles.Levels[log.FatalLevel] = styles.Levels[log.FatalLevel].SetString("☠️")
+
+	styles.Keys["err"] = lipgloss.NewStyle().Foreground(lipgloss.Color("204"))
+	styles.Keys["error"] = lipgloss.NewStyle().Foreground(lipgloss.Color("204"))
+	styles.Values["error"] = lipgloss.NewStyle().Bold(true)
+	styles.Values["error"] = lipgloss.NewStyle().Bold(true)
+	
+	return styles
 }

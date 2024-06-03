@@ -59,12 +59,13 @@ func SelectWorkload(cmd *cobra.Command, args []string) {
 	userIde, _ := cmd.Flags().GetString("ide")
 	err := invokeIDE(ide.GetIDE(userIde), selectProject, c)
 	if err != nil {
-		log.Fatal("troubling launching the ide", "error", err)
-		return
+		log.Fatal("trouble launching the ide", "error", err)
 	}
 }
 
 func invokeIDE(ideC ide.IDE, project *projects.Project, userConfig *config.Config) error {
+	logger := log.WithPrefix("Launching")
+
 	var c *config.IDEConfig
 	if ideC == nil {
 		ideC, c = findIDE(project, userConfig)
@@ -84,7 +85,7 @@ func invokeIDE(ideC ide.IDE, project *projects.Project, userConfig *config.Confi
 			ocom = exec.Command("wsl", cmd)
 		}
 	}
-	log.Debug("Attempting...",
+	logger.Debug("Attempting...",
 		"command", ocom,
 		"project", project.Name,
 		"folder", project.Folder,
@@ -94,7 +95,7 @@ func invokeIDE(ideC ide.IDE, project *projects.Project, userConfig *config.Confi
 	}
 
 	ocom.Dir = project.Folder
-	log.Info("Launching...", "project", project.Name, "command", ocom.String())
+	logger.Info(project.Name + " 🌕")
 	if err := ocom.Start(); err != nil {
 		return err
 	}

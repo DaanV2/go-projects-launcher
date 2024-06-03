@@ -17,7 +17,7 @@ var rootCmd = &cobra.Command{
 	Run: MainWorkload,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		SetupLogger(cmd, args)
-		log.Info("==== project switcher ====")
+		log.Info("Project Launcher 🌍")
 	},
 }
 

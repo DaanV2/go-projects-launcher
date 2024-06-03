@@ -23,6 +23,7 @@ func Display(title string, description string, fields ...huh.Field) error {
 // FatalIfNotAbort Checks if the error is an "user aborted" error and return true if it is, Else will fataly log the error if not nil
 func FatalIfNotAbort(err error) bool {
 	if errors.Is(err, huh.ErrUserAborted) {
+		log.Info("Bye 👋")
 		return true
 	}
 	if err == nil {
