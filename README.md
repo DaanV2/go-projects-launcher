@@ -14,7 +14,7 @@ go-projects-launcher some-project-folder-pattern
 
 ## Usage
 
-<img src="https:./docs/assets/example.png" width=50%>
+<img src="./docs/assets/example.png" width=50%>
 
 ## Configuration
 
