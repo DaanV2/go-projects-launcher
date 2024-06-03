@@ -14,22 +14,11 @@ go-projects-launcher some-project-folder-pattern
 
 ## Usage
 
-```bash
-# Setup
-go-projects-launcher --setup
+<img src="https:./docs/assets/example.png" width=50%>
 
-go-projects-launcher [flags] [project-folder-pattern]
+## Configuration
 
-# If only 1 project is found, it will be launched
-# else a list of projects will be shown
-go-projects-launcher projectA
-go-projects-launcher proj
-
-# Show all
-go-projects-launcher
-```
-
-## Configure
+The config file:
 
 ```yaml
 default_ide: vscode
@@ -46,3 +35,8 @@ ide_config:
     path_filter: ""
     command: notepad.exe
 ```
+
+The file is stored in the users config folder -> `.projects` -> `projects-switch.yaml`
+
+**Linux:** `/home/<user>/.config/.projects/projects-switch.yaml`  
+**Windows:** `C:\Users\<user>\AppData\Roaming\.projects`  
