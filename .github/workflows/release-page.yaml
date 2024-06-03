@@ -16,8 +16,8 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 📑 Release Page
-        uses: ncipollo/release-action@v1
+        uses: softprops/action-gh-release@v2
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
-          generateReleaseNotes: true
-          makeLatest: true
+          generate_release_notes: true
+          make_latest: true
