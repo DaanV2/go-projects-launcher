@@ -5,11 +5,11 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/DaanV2/go-projects-launcher/config"
-	"github.com/DaanV2/go-projects-launcher/ide"
-	"github.com/DaanV2/go-projects-launcher/projects"
-	"github.com/DaanV2/go-projects-launcher/regex"
-	"github.com/DaanV2/go-projects-launcher/slicesx"
+	"github.com/DaanV2/go-projects-launcher/pkg/config"
+	"github.com/DaanV2/go-projects-launcher/pkg/ide"
+	"github.com/DaanV2/go-projects-launcher/pkg/projects"
+	"github.com/DaanV2/go-projects-launcher/pkg/regex"
+	"github.com/DaanV2/go-projects-launcher/pkg/slicesx"
 	"github.com/spf13/cobra"
 
 	"github.com/charmbracelet/huh"

@@ -4,8 +4,8 @@ import (
 	"os"
 	"path"
 
-	"github.com/DaanV2/go-projects-launcher/config"
-	"github.com/DaanV2/go-projects-launcher/regex"
+	"github.com/DaanV2/go-projects-launcher/pkg/config"
+	"github.com/DaanV2/go-projects-launcher/pkg/regex"
 	"github.com/charmbracelet/log"
 )
 

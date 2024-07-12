@@ -4,8 +4,8 @@ import (
 	"os"
 	"path"
 
-	"github.com/DaanV2/go-projects-launcher/ide"
-	"github.com/DaanV2/go-projects-launcher/users"
+	"github.com/DaanV2/go-projects-launcher/pkg/ide"
+	"github.com/DaanV2/go-projects-launcher/pkg/users"
 	"github.com/charmbracelet/log"
 	"gopkg.in/yaml.v3"
 )
