@@ -4,7 +4,7 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/DaanV2/go-projects-launcher/slicesx"
+	"github.com/DaanV2/go-projects-launcher/pkg/slicesx"
 	"github.com/stretchr/testify/assert"
 )
 
