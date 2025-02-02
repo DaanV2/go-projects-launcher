@@ -20,13 +20,13 @@ import (
 func SelectWorkload(cmd *cobra.Command, args []string) {
 	var selectProject *projects.Project
 	c := config.GetConfig()
-	projs := projects.GetProjects(c.ProjectFolders)
+	projs := projects.GetProjects(c.Match, c.ProjectFolders)
 
 	// If filter pattern specified apply
 	if len(args) > 0 {
 		filter := args[0]
 		projs = slicesx.Filter(projs, func(item *projects.Project) bool {
-			return regex.IsMatch(item.Folder, filter)
+			return regex.IsMatch(c.Match, item.Folder, filter)
 		})
 	}
 
@@ -105,7 +105,7 @@ func invokeIDE(ideC ide.IDE, project *projects.Project, userConfig *config.Confi
 
 func findIDE(project *projects.Project, config *config.Config) (ide.IDE, *config.IDEConfig) {
 	for _, i := range config.IDE {
-		if regex.IsMatch(project.Folder, i.PathFilter) {
+		if regex.IsMatch(config.Match, project.Folder, i.PathFilter) {
 			return i.IDE.Get(), i
 		}
 	}
