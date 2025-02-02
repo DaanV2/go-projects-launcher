@@ -17,6 +17,7 @@ func Display(title string, description string, fields ...huh.Field) error {
 		group.Description(description)
 	}
 	form := huh.NewForm(group)
+
 	return form.Run()
 }
 
