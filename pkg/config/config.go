@@ -13,14 +13,15 @@ import (
 type (
 	// Config is the configuration for the projects switcher
 	Config struct {
-		DefaultIDE     ide.IDE_ID       `yaml:"default_ide"` // The default IDE to use
+		DefaultIDE     ide.IDE_ID       `yaml:"default_ide"`     // The default IDE to use
 		ProjectFolders []*ProjectFolder `yaml:"project_folders"` // The folders to look through
-		IDE            []*IDEConfig     `yaml:"ide_config"` // The IDE to configure
+		IDE            []*IDEConfig     `yaml:"ide_config"`      // The IDE to configure
+		Match          Matching         `yaml:"match"`           // Matching rules
 	}
 
 	// IDEConfig is the configuration for an IDE
 	IDEConfig struct {
-		IDE        ide.IDE_ID `yaml:"ide"` // The IDE to configure
+		IDE        ide.IDE_ID `yaml:"ide"`         // The IDE to configure
 		PathFilter string     `yaml:"path_filter"` // The regex filter to apply, if blank then always true
 		Custom     string     `yaml:"custom"`      // A custom command to run, if blank then use the default command
 	}
@@ -30,6 +31,10 @@ type (
 		Folder   string   `yaml:"folder"`   // The folder to look through
 		Includes []string `yaml:"includes"` // The regex pattern that must match an item
 		Excludes []string `yaml:"excludes"` // The regex pattern that when match will excluded that item
+	}
+
+	Matching struct {
+		CaseSensitive bool `yaml:"case_sensitive"` // CaseSenstive whenever or not case sensitive in searches
 	}
 )
 
@@ -86,6 +91,9 @@ func DefaultConfig() *Config {
 		},
 		IDE:        []*IDEConfig{},
 		DefaultIDE: ide.VSCODE,
+		Match: Matching{
+			CaseSensitive: false,
+		},
 	}
 }
 

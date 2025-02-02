@@ -2,17 +2,30 @@ package regex
 
 import (
 	go_regexp "regexp"
+	"strings"
 
+	"github.com/DaanV2/go-projects-launcher/pkg/config"
 	"github.com/charmbracelet/log"
 )
 
 // IsMatch checks the given item against all the provided arguments, expected that the patterns is a regex string
-func IsMatch(item string, patterns ...string) bool {
+func IsMatch(config config.Matching, item string, patterns ...string) bool {
+	if !config.CaseSensitive {
+		item = strings.ToLower(item)
+	}
+
 	for _, pattern := range patterns {
-		matched, err := go_regexp.MatchString(pattern, item)
+		if !config.CaseSensitive {
+			pattern = strings.ToLower(pattern)
+		}
+
+		re, err := go_regexp.Compile(pattern)
 		if err != nil {
 			log.Error("error with regex pattern", "pattern", pattern, "error", err)
 		}
+
+
+		matched := re.MatchString(item)
 		if matched {
 			return true
 		}
