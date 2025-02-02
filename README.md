@@ -4,6 +4,7 @@ A tool for launching projects, allowing you to search all your different project
 
 ```bash
 go install github.com/DaanV2/go-projects-launcher@v1.0.2
+go-projects-launcher setup
 ```
 
 ## Examples
