@@ -24,7 +24,6 @@ func IsMatch(config config.Matching, item string, patterns ...string) bool {
 			log.Error("error with regex pattern", "pattern", pattern, "error", err)
 		}
 
-
 		matched := re.MatchString(item)
 		if matched {
 			return true
@@ -35,14 +34,14 @@ func IsMatch(config config.Matching, item string, patterns ...string) bool {
 }
 
 // Determine check if an item matches with the include and not with the excludes, if either one is 0
-func Determine(item string, include []string, exclude []string) bool {
+func Determine(config config.Matching, item string, include []string, exclude []string) bool {
 	result := true
 
 	if len(include) > 0 {
-		result = IsMatch(item, include...)
+		result = IsMatch(config, item, include...)
 	}
 	if result && len(exclude) > 0 {
-		result = !IsMatch(item, exclude...)
+		result = !IsMatch(config, item, exclude...)
 	}
 
 	return result

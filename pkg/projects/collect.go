@@ -16,7 +16,7 @@ type Project struct {
 	Name   string
 }
 
-func GetProjects(folders []*config.ProjectFolder) []*Project {
+func GetProjects(match config.Matching, folders []*config.ProjectFolder) []*Project {
 	result := make([]*Project, 0, 100)
 
 	for _, folder := range folders {
@@ -24,7 +24,7 @@ func GetProjects(folders []*config.ProjectFolder) []*Project {
 			result = append(result, items...)
 			continue
 		}
-		if items, err := discoverProjects(folder); err != nil {
+		if items, err := discoverProjects(match, folder); err != nil {
 			delete(cache, folder.Folder)
 		} else {
 			cache[folder.Folder] = items
@@ -36,7 +36,7 @@ func GetProjects(folders []*config.ProjectFolder) []*Project {
 }
 
 // discoverProjects finds all the projects in the given folder
-func discoverProjects(folder *config.ProjectFolder) ([]*Project, error) {
+func discoverProjects(match config.Matching, folder *config.ProjectFolder) ([]*Project, error) {
 	log.Debug("discovering project folder", "folder", folder.Folder)
 	result := make([]*Project, 0, 100)
 
@@ -52,7 +52,7 @@ func discoverProjects(folder *config.ProjectFolder) ([]*Project, error) {
 		}
 		fullpath := path.Join(folder.Folder, item.Name())
 
-		if regex.Determine(fullpath, folder.Includes, folder.Excludes) {
+		if regex.Determine(match, fullpath, folder.Includes, folder.Excludes) {
 			result = append(result, &Project{
 				Folder: fullpath,
 				Name:   item.Name(),
