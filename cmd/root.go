@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"os"
-
 	"github.com/charmbracelet/log"
 	"github.com/spf13/cobra"
 )
@@ -12,6 +10,7 @@ var rootCmd = &cobra.Command{
 	Use:   "go-projects-launcher [pattern]",
 	Short: "A tool that allows for eaching switching of projects",
 	Long:  `Through the config file, the tool knows where to look for projects, apply any filters and determine possible IDE to launch the project for`,
+	Example: `go-projects-launcher launcher`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	Run: MainWorkload,
@@ -23,11 +22,8 @@ var rootCmd = &cobra.Command{
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute() {
-	err := rootCmd.Execute()
-	if err != nil {
-		os.Exit(1)
-	}
+func RootCMD() *cobra.Command {
+	return rootCmd
 }
 
 func init() {
