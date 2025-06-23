@@ -7,13 +7,14 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "go-projects-launcher [pattern]",
-	Short: "A tool that allows for eaching switching of projects",
-	Long:  `Through the config file, the tool knows where to look for projects, apply any filters and determine possible IDE to launch the project for`,
+	Use:     "go-projects-launcher [pattern]",
+	Short:   "A tool that allows for eaching switching of projects",
+	Long:    `Through the config file, the tool knows where to look for projects, apply any filters and determine possible IDE to launch the project for`,
 	Example: `go-projects-launcher launcher`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
-	Run: MainWorkload,
+	Run:  MainWorkload,
+	Args: cobra.MaximumNArgs(1), // Allow at most one argument
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		SetupLogger(cmd, args)
 		log.Info("Project Launcher 🌍")

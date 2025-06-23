@@ -22,8 +22,8 @@ func init() {
 
 func SetupLogger(cmd *cobra.Command, args []string) {
 	logOptions := log.Options{
-		TimeFormat:   time.DateTime,
-		ReportCaller: cmd.Flag("log-report-caller").Value.String() == "true",
+		TimeFormat:      time.DateTime,
+		ReportCaller:    cmd.Flag("log-report-caller").Value.String() == "true",
 		ReportTimestamp: false,
 	}
 
@@ -63,6 +63,6 @@ func CreateStyle() *log.Styles {
 	styles.Keys["error"] = lipgloss.NewStyle().Foreground(lipgloss.Color("204"))
 	styles.Values["error"] = lipgloss.NewStyle().Bold(true)
 	styles.Values["error"] = lipgloss.NewStyle().Bold(true)
-	
+
 	return styles
 }
