@@ -3,7 +3,7 @@ module github.com/DaanV2/go-projects-launcher
 go 1.24.4
 
 require (
-	github.com/charmbracelet/fang v0.4.2
+	github.com/charmbracelet/fang v0.4.3
 	github.com/charmbracelet/huh v0.7.0
 	github.com/charmbracelet/lipgloss v1.1.0
 	github.com/charmbracelet/log v0.4.2
