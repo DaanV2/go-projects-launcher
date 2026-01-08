@@ -2,7 +2,6 @@ package ide
 
 import (
 	"os/exec"
-	"runtime"
 )
 
 const (
