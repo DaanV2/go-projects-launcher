@@ -1,7 +1,7 @@
 package ide
 
 const (
-	INTELLIJ IDE_ID = "intellij"
+	GOLAND IDE_ID = "goland"
 )
 
 func init() {
@@ -10,8 +10,8 @@ func init() {
 			func(folder string) *exec.Cmd {
 				return exec.Command("idea", ".")
 			},
-			"Intellij - Jetbrains",
-			INTELLIJ,
+			"Goland - Jetbrains",
+			GOLAND,
 			[]string{},
 		},
 	)
